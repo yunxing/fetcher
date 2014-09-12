@@ -2,6 +2,8 @@ package main
 
 import "net/http"
 import "fmt"
+import "os"
+import "strconv"
 import "time"
 import "net"
 import "regexp"
@@ -79,7 +81,15 @@ func main() {
 		var index int = i
 		go func() {
 			defer wg.Done()
-			for j := 0; j < 100; j++ {
+			start, err := strconv.Atoi(os.Args[1])
+			if err != nil {
+				panic("Can't parse start!")
+			}
+			end, err := strconv.Atoi(os.Args[2])
+			if err != nil {
+				panic("Can't parse end!")
+			}
+			for j := start; j < end; j++ {
 				for k := 1; k < 100; k++ {
 					client := &http.Client{
 						Transport: &http.Transport{
